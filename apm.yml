@@ -1,0 +1,11 @@
+name: pic
+version: 1.0.0
+description: APM project for pic
+author: Yoshiki Kudo
+targets:
+  - agent-skills
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}
