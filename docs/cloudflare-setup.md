@@ -77,16 +77,17 @@ npm run migrate:apply
 5. **Policy**: 許可するメールアドレスを1つ登録（例: `your@email.com`）
 6. 作成完了
 
-### 3-2. CLI 用 Service Token
+### 3-2. API 認証（共有シークレット）
 
-1. Cloudflare ダッシュボード → **Zero Trust** → **Access** → **Service Auth**
-2. **Generate Service Token**
-3. 発行された `Client ID` と `Client Secret` を控える
+API（`api.pic.335g.dev`）の認証は Cloudflare Access ではなく、Worker 内の共有シークレットで行う。
+Zero Trust の Access アプリケーションは作成しない。
 
-### 3-3. API ドメインの Access ポリシー
+```bash
+cd backend
+echo "<任意の秘密文字列>" | npx wrangler secret put API_SHARED_SECRET --name pic-api
+```
 
-1. **Access** → **Applications** → **Add an application** → **Self-hosted**
-2. **Application domain**: `api.pic.335g.dev`
+CLI は `Authorization: Bearer <秘密文字列>` ヘッダで認証する。
 3. **Policy** → 以下のいずれかを選択:
    - **Service Token のみ許可**: ポリシーで Service Token のみを許可（CLIからのみアクセス）
    - **メール + Service Token**: Frontendからのブラウザアクセスも許可する場合
@@ -140,11 +141,11 @@ npm run types
 npm run deploy
 ```
 
-初回デプロイ後、以下の環境変数を設定する（必要な場合）:
+初回デプロイ後、以下のシークレットを設定する:
 
 ```bash
-npx wrangler secret put R2_PUBLIC_URL
-# → R2 バケットの公開URL（署名付きURLに必要。通常は自動生成されるので省略可）
+cd backend
+echo "<任意の秘密文字列>" | npx wrangler secret put API_SHARED_SECRET --name pic-api
 ```
 
 ---
@@ -184,8 +185,7 @@ secret_access_key = "<R2 API Secret Access Key>"
 
 [api]
 endpoint = "https://api.pic.335g.dev"
-cf_access_client_id = "<Zero Trust Service Token Client ID>"
-cf_access_client_secret = "<Zero Trust Service Token Client Secret>"
+shared_secret = "<Worker の API_SHARED_SECRET> と同じ値"
 ```
 
 > R2 エンドポイントの形式: `https://<account-id>.r2.cloudflarestorage.com`
@@ -201,8 +201,8 @@ cf_access_client_secret = "<Zero Trust Service Token Client Secret>"
  3. D1 データベース作成       → npm run db:create
  4. wrangler.jsonc の更新     → database_id を書き込み
  5. D1 マイグレーション実行   → npm run migrate:apply
- 6. Zero Trust Service Token  → ダッシュボード（CLI用）
- 7. Zero Trust Access ポリシー → ダッシュボード（pic.335g.dev + api.pic.335g.dev）
+ 6. API 認証シークレット設定 → wrangler secret put API_SHARED_SECRET
+ 7. Zero Trust Access ポリシー → ダッシュボード（pic.335g.dev のみ）
  8. Backend デプロイ          → npm run deploy
  9. Backend カスタムドメイン   → api.pic.335g.dev
 10. Frontend デプロイ         → Cloudflare Pages (Git連携)
