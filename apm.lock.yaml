@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-06-27T02:46:14.998229+00:00'
+generated_at: '2026-06-27T03:15:27.718559+00:00'
 apm_version: 0.21.0
 dependencies:
 - repo_url: mattpocock/skills
@@ -7,6 +7,8 @@ dependencies:
   resolved_commit: 5d78bd0903420f97c791f834201e550c765699f8
   package_type: marketplace_plugin
   deployed_files:
+  - .agents/skills/ask-matt
+  - .agents/skills/ask-matt/SKILL.md
   - .agents/skills/domain-modeling
   - .agents/skills/domain-modeling/ADR-FORMAT.md
   - .agents/skills/domain-modeling/CONTEXT-FORMAT.md
@@ -27,6 +29,7 @@ dependencies:
   - .agents/skills/to-prd
   - .agents/skills/to-prd/SKILL.md
   deployed_file_hashes:
+    .agents/skills/ask-matt/SKILL.md: sha256:fb534e029b0b4a27188f62e3839ab027c69e025915229c4524693eb1edcbb64d
     .agents/skills/domain-modeling/ADR-FORMAT.md: sha256:f1f36cd3f8d3b6474ddd5855da4e233bfc4ae1a1c5024909ccf11871819a41b2
     .agents/skills/domain-modeling/CONTEXT-FORMAT.md: sha256:b8cc318f2a4285b530e908b6bc43901c3c5cd11100362636bbc4216639bef597
     .agents/skills/domain-modeling/SKILL.md: sha256:152e2c97239affb12a60c5f4a7e74ab546a49ae169688c81f4e2ccc42dafa579
@@ -42,9 +45,11 @@ dependencies:
     .agents/skills/to-prd/SKILL.md: sha256:db7e7188ac4fd47f4925ae6550e0233365b3b05be40f45235ab3a0a6b0165156
   content_hash: sha256:64d7882d379c5346447fb7cc85460efa5bddd9dc59a5ecc1bfe0ca98dca51f34
   skill_subset:
+  - ask-matt
   - domain-modeling
   - grill-me
   - grill-with-docs
   - grilling
+  - implement
   - setup-matt-pocock-skills
   - to-prd

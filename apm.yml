@@ -8,12 +8,14 @@ dependencies:
   apm:
   - git: mattpocock/skills
     skills:
+    - ask-matt
     - domain-modeling
     - grill-me
     - grill-with-docs
     - grilling
     - setup-matt-pocock-skills
     - to-prd
+    - implement
   mcp: []
 includes: auto
 scripts: {}
