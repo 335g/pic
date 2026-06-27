@@ -14,8 +14,7 @@ pub async fn notify_backend(
     let client = reqwest::Client::new();
     let response = client
         .post(&url)
-        .header("CF-Access-Client-Id", &config.api.cf_access_client_id)
-        .header("CF-Access-Client-Secret", &config.api.cf_access_client_secret)
+        .header("Authorization", format!("Bearer {}", config.api.shared_secret))
         .json(&RegisterMediaRequest {
             id: result.id.clone(),
             filename: result.filename.clone(),

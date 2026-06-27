@@ -18,8 +18,7 @@ pub struct R2Config {
 #[derive(Debug, Deserialize, Clone)]
 pub struct ApiConfig {
     pub endpoint: String,
-    pub cf_access_client_id: String,
-    pub cf_access_client_secret: String,
+    pub shared_secret: String,
 }
 
 impl Config {
