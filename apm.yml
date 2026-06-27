@@ -12,6 +12,8 @@ dependencies:
     - grill-me
     - grill-with-docs
     - grilling
+    - setup-matt-pocock-skills
+    - to-prd
   mcp: []
 includes: auto
 scripts: {}
