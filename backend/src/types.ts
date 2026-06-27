@@ -21,5 +21,7 @@ export type NewMedia = Omit<Media, 'uploaded_at'>;
 export interface Env {
   DB: D1Database;
   MEDIA_BUCKET: R2Bucket;
-  R2_PUBLIC_URL: string;
+  R2_ACCESS_KEY_ID: string;
+  R2_SECRET_ACCESS_KEY: string;
+  R2_ACCOUNT_ID: string;
 }

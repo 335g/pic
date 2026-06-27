@@ -4,18 +4,19 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-06-27",
   "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": false,
+  "workers_dev": true,
   "routes": [
     {
       "pattern": "api.pic.335g.dev",
       "custom_domain": true
     }
   ],
+
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "pic-media",
-      "database_id": ""
+      "database_id": "9c28c79d-e5bb-43f1-82cd-1e2808038d17"
     }
   ],
   "r2_buckets": [
@@ -25,9 +26,9 @@
     }
   ],
   "vars": {
-    "R2_PUBLIC_URL": ""
+    "R2_ACCOUNT_ID": "0ed27925652ec6a2fe38487bc30d3ff9"
   },
-  "migrations": {
-    "tag": "v1"
-  }
+  "migrations": [
+    { "tag": "v1" }
+  ]
 }
