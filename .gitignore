@@ -1,6 +1,11 @@
 
 /.direnv
 .env
+/.agents
 
 target
 node_modules
+
+
+# APM dependencies
+apm_modules/

@@ -3,9 +3,15 @@ version: 1.0.0
 description: APM project for pic
 author: Yoshiki Kudo
 targets:
-  - agent-skills
+- agent-skills
 dependencies:
-  apm: []
+  apm:
+  - git: mattpocock/skills
+    skills:
+    - domain-modeling
+    - grill-me
+    - grill-with-docs
+    - grilling
   mcp: []
 includes: auto
 scripts: {}
