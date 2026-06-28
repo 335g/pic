@@ -12,11 +12,13 @@ export interface Media {
   height: number | null
   taken_at: string
   uploaded_at: string
-  signed_thumbnail_url: string
 }
 
-export interface MediaDetail extends Media {
-  signed_thumbnail_url: string
+export interface MediaDetail extends Media {}
+
+/** Build thumbnail URL for a media item from its ID */
+export function thumbnailUrl(id: string): string {
+  return `${API_BASE}/media/${id}/thumbnail`
 }
 
 export interface ListMediaResponse {

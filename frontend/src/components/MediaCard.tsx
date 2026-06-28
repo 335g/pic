@@ -1,4 +1,4 @@
-import type { Media } from '@/api/client'
+import { type Media, thumbnailUrl } from '@/api/client'
 import { cn } from '@/lib/utils'
 
 interface MediaCardProps {
@@ -17,7 +17,7 @@ export function MediaCard({ media, onClick }: MediaCardProps) {
       )}
     >
       <img
-        src={media.signed_thumbnail_url}
+        src={thumbnailUrl(media.id)}
         alt={media.filename}
         className="h-full w-full object-cover transition-transform group-hover:scale-105"
         loading="lazy"

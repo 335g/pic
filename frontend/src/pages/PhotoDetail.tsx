@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getMediaDetail, getDownloadUrl } from '@/api/client'
+import { getMediaDetail, getDownloadUrl, thumbnailUrl } from '@/api/client'
 import type { MediaDetail } from '@/api/client'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -68,14 +68,15 @@ export function PhotoDetail() {
       <div className="overflow-hidden rounded-lg border border-neutral-200 dark:border-neutral-700">
         {media.media_type === 'video' ? (
           <video
-            src={media.signed_thumbnail_url}
             controls
             className="w-full"
-            poster={media.signed_thumbnail_url}
-          />
+            poster={thumbnailUrl(media.id)}
+          >
+            <source src={downloadUrl || ''} type={media.mime_type} />
+          </video>
         ) : (
           <img
-            src={media.signed_thumbnail_url}
+            src={thumbnailUrl(media.id)}
             alt={media.filename}
             className="w-full"
           />
