@@ -23,9 +23,9 @@ pub struct ApiConfig {
 
 impl Config {
     pub fn load() -> Result<Self> {
-        let config_dir = dirs::home_dir()
-            .context("Cannot find home directory")?
-            .join(".pic");
+        let config_dir = dirs::config_dir()
+            .context("Cannot find config directory")?
+            .join("pic");
 
         let config_path = config_dir.join("config.toml");
 
