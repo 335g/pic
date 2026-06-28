@@ -28,8 +28,6 @@ const env = {
   API_SHARED_SECRET: 'test-secret',
 };
 
-const authHeaders = { Authorization: 'Bearer test-secret' };
-
 describe('API', () => {
   let mockDB: D1Database;
   let mockBucket: R2Bucket;
@@ -40,36 +38,16 @@ describe('API', () => {
   });
 
   describe('GET /api/health', () => {
-    it('returns ok status without auth', async () => {
+    it('returns ok status', async () => {
       const res = await app.request('/api/health', {}, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
       expect(res.status).toBe(200);
-      const body = await res.json();
-      expect(body).toEqual({ status: 'ok' });
-    });
-  });
-
-  describe('auth', () => {
-    it('returns 401 without auth header', async () => {
-      const res = await app.request('/api/media', {}, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
-      expect(res.status).toBe(401);
-    });
-
-    it('returns 401 with wrong auth header', async () => {
-      const res = await app.request('/api/media', { headers: { Authorization: 'Bearer wrong-secret' } }, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
-      expect(res.status).toBe(401);
-    });
-  });
-
-  describe('GET /api/media/:id', () => {
-    it('returns 404 for non-existent media', async () => {
-      const res = await app.request('/api/media/nonexistent-id', { headers: authHeaders }, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
-      expect(res.status).toBe(404);
+      expect(await res.json()).toEqual({ status: 'ok' });
     });
   });
 
   describe('GET /api/media', () => {
-    it('returns 200 with empty list', async () => {
-      const res = await app.request('/api/media', { headers: authHeaders }, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
+    it('returns 200 without auth (public)', async () => {
+      const res = await app.request('/api/media', {}, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
       expect(res.status).toBe(200);
       const body = await res.json();
       expect(body).toHaveProperty('items');
@@ -77,8 +55,52 @@ describe('API', () => {
     });
 
     it('returns 400 for invalid media_type', async () => {
-      const res = await app.request('/api/media?media_type=invalid', { headers: authHeaders }, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
+      const res = await app.request('/api/media?media_type=invalid', {}, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
       expect(res.status).toBe(400);
+    });
+  });
+
+  describe('GET /api/media/:id', () => {
+    it('returns 404 for non-existent media', async () => {
+      const res = await app.request('/api/media/nonexistent-id', {}, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
+      expect(res.status).toBe(404);
+    });
+  });
+
+  describe('POST /api/media', () => {
+    const validBody = {
+      id: '550e8400-e29b-41d4-a716-446655440000',
+      filename: 'test.jpg',
+      object_key: '2026/06/27/test.jpg',
+      thumbnail_key: '2026/06/27/test_thumb.jpg',
+      file_size: 12345,
+      media_type: 'photo',
+      mime_type: 'image/jpeg',
+      width: 1920,
+      height: 1080,
+      taken_at: '2026-06-27T10:00:00+09:00',
+    };
+
+    it('returns 401 without auth', async () => {
+      const res = await app.request('/api/media', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(validBody),
+      }, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
+      expect(res.status).toBe(401);
+    });
+
+    it('returns 401 with wrong auth', async () => {
+      const res = await app.request('/api/media', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer wrong' },
+        body: JSON.stringify(validBody),
+      }, { ...env, DB: mockDB, MEDIA_BUCKET: mockBucket });
+      expect(res.status).toBe(401);
+    });
+
+    it.skip('returns 201 with valid auth', async () => {
+      // Skipped because it requires a working D1 mock
     });
   });
 });

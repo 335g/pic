@@ -32,8 +32,13 @@ export interface DownloadResponse {
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url)
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}))
-    throw new Error(body.error || `HTTP ${res.status}`)
+    const text = await res.text().catch(() => '')
+    let msg = `HTTP ${res.status}`
+    try {
+      const body = JSON.parse(text)
+      if (body.error) msg = body.error
+    } catch { /* not JSON */ }
+    throw new Error(msg)
   }
   return res.json()
 }
